@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import emailjs from "emailjs-com";
+import { useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { useLang } from "@/contexts/LanguageContext";
 import {
@@ -16,18 +15,6 @@ import {
   Clock,
 } from "lucide-react";
 
-// ─── EmailJS configuration ────────────────────────────────────────────────────
-// 1. Create a free account at https://www.emailjs.com
-// 2. Add an Email Service (Gmail, iCloud, etc.) → copy the Service ID
-// 3. Create an Email Template with variables:
-//      {{from_name}}, {{from_email}}, {{subject}}, {{message}}
-//    Set the "To Email" in the template to victoreduardo.ml@icloud.com
-// 4. Go to Account → API Keys → copy your Public Key
-// Then replace the three placeholders below:
-const EMAILJS_SERVICE_ID  = "service_rpzakdw";   // e.g. "service_abc123"
-const EMAILJS_TEMPLATE_ID = "template_7icatc4";  // e.g. "template_xyz789"
-const EMAILJS_PUBLIC_KEY  = "YtaBECyhlVA4zGWE9w";   // e.g. "abcDEFghiJKL"
-// ─────────────────────────────────────────────────────────────────────────────
 
 const socialLinks = [
   {
@@ -76,10 +63,6 @@ export default function Contact() {
   const sectionRef = useRef(null);
   const inView = useInView(sectionRef, { once: true, margin: "-100px" });
 
-  useEffect(() => {
-    emailjs.init(EMAILJS_PUBLIC_KEY);
-  }, []);
-
   const [form, setForm] = useState<FormState>({ name: "", email: "", subject: "", message: "" });
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [errors, setErrors] = useState<Partial<FormState>>({});
@@ -99,19 +82,22 @@ export default function Contact() {
     if (!validate()) return;
     setStatus("sending");
 
-    const templateParams = {
-      from_name:  form.name,
-      from_email: form.email,
-      subject:    form.subject,
-      message:    form.message,
-    };
-
     try {
-      await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        templateParams
-      );
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          subject: form.subject,
+          message: form.message,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error || "Falha ao enviar");
+
       setStatus("sent");
       setForm({ name: "", email: "", subject: "", message: "" });
       setTimeout(() => setStatus("idle"), 5000);
