@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import emailjs from "emailjs-com";
 import { motion, useInView } from "framer-motion";
 import { useLang } from "@/contexts/LanguageContext";
@@ -76,6 +76,10 @@ export default function Contact() {
   const sectionRef = useRef(null);
   const inView = useInView(sectionRef, { once: true, margin: "-100px" });
 
+  useEffect(() => {
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+  }, []);
+
   const [form, setForm] = useState<FormState>({ name: "", email: "", subject: "", message: "" });
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [errors, setErrors] = useState<Partial<FormState>>({});
@@ -106,8 +110,7 @@ export default function Contact() {
       await emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
-        templateParams,
-        EMAILJS_PUBLIC_KEY
+        templateParams
       );
       setStatus("sent");
       setForm({ name: "", email: "", subject: "", message: "" });
