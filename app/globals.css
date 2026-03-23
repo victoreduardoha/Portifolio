@@ -1,0 +1,245 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #050a0f;
+  --bg-secondary: #0a1628;
+  --accent-cyan: #22d3ee;
+  --accent-blue: #3b82f6;
+  --text-primary: #f0f9ff;
+  --text-secondary: #94a3b8;
+}
+
+.light {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #e2e8f0;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0a1628;
+}
+::-webkit-scrollbar-thumb {
+  background: #22d3ee;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #06b6d4;
+}
+
+/* Glow effects */
+.glow-cyan {
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.3), 0 0 40px rgba(34, 211, 238, 0.1);
+}
+.glow-blue {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3), 0 0 40px rgba(59, 130, 246, 0.1);
+}
+
+/* Grid pattern background */
+.grid-pattern {
+  background-image:
+    linear-gradient(rgba(34, 211, 238, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #22d3ee, #3b82f6, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Card hover effect */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(34, 211, 238, 0.15);
+}
+
+/* Animated border */
+@keyframes border-flow {
+  0%, 100% { border-color: rgba(34, 211, 238, 0.3); }
+  50% { border-color: rgba(59, 130, 246, 0.6); }
+}
+.animated-border {
+  animation: border-flow 3s ease-in-out infinite;
+}
+
+/* Code font */
+.font-code {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Section padding */
+.section-padding {
+  padding: 100px 0;
+}
+
+/* Noise texture overlay */
+.noise::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.02'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Loading animation */
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+.scanline {
+  animation: scanline 3s linear infinite;
+}
+
+/* Typing cursor */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+.cursor {
+  animation: blink 1s step-end infinite;
+}
+
+/* Button styles */
+.btn-primary {
+  @apply bg-cyan-500 text-black font-semibold px-8 py-3 rounded-lg
+    hover:bg-cyan-400 transition-all duration-300
+    hover:shadow-lg hover:shadow-cyan-500/30;
+}
+
+.btn-outline {
+  @apply border border-cyan-500/50 text-cyan-400 font-semibold px-8 py-3 rounded-lg
+    hover:border-cyan-400 hover:bg-cyan-500/10 transition-all duration-300;
+}
+
+/* Modal backdrop */
+.modal-backdrop {
+  backdrop-filter: blur(8px);
+  background: rgba(5, 10, 15, 0.85);
+}
+
+/* Skill bar animation */
+@keyframes fill-bar {
+  from { width: 0; }
+  to { width: var(--target-width); }
+}
+
+/* Light mode overrides */
+.light body {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+.dark .bg-dark-900 { background-color: #050a0f; }
+.dark .bg-dark-800 { background-color: #0a1628; }
+
+/* Recharts custom */
+.recharts-tooltip-wrapper {
+  z-index: 1000;
+}
+
+/* =============================================================
+   LIGHT MODE OVERRIDES
+   Applies when html.light (theme toggle removes .dark, adds .light)
+   Fixes white/near-white text and invisible backgrounds on light bg
+   ============================================================= */
+
+/* White text → slate-900 */
+html.light .text-white { color: #0f172a !important; }
+
+/* Very light gray text → readable dark gray */
+html.light .text-slate-300 { color: #334155 !important; }
+html.light .text-slate-400 { color: #475569 !important; }
+
+/* bg-white/opacity utilities → bg-black/opacity (visible on light bg) */
+html.light .bg-white\/5  { background-color: rgba(15, 23, 42, 0.05) !important; }
+html.light .bg-white\/8  { background-color: rgba(15, 23, 42, 0.06) !important; }
+html.light .bg-white\/10 { background-color: rgba(15, 23, 42, 0.08) !important; }
+
+/* border-white/opacity → border-black/opacity (visible on light bg) */
+html.light .border-white\/10 { border-color: rgba(15, 23, 42, 0.15) !important; }
+html.light .border-white\/20 { border-color: rgba(15, 23, 42, 0.20) !important; }
+
+/* Restore white text inside elements that keep a dark background
+   (footer, modals, demo panels — they have explicit dark bg colors) */
+html.light footer .text-white,
+html.light .modal-backdrop .text-white,
+html.light [class*="bg-\[#0"] .text-white { color: #f8fafc !important; }
+
+/* Keep dark section bg text-white readable */
+html.light .bg-\[\#0a1628\],
+html.light .bg-\[\#050a0f\],
+html.light .bg-\[\#020810\] { color: #f8fafc; }
+
+/* =============================================================
+   DASHBOARD PROJECT CARD — BLUE HOVER OVERLAY
+   Applied ONLY to cards with .project-card class (Dashboard card)
+   Uses ::before pseudo-element; content stays fully visible via z-index
+   ============================================================= */
+
+.project-card {
+  /* Create isolated stacking context so z-index: -1 overlay
+     stays inside the card bounds and never bleeds behind the page */
+  isolation: isolate;
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.20) 0%,
+    rgba(34, 211, 238, 0.13) 55%,
+    rgba(99, 102, 241, 0.09) 100%
+  );
+  border-radius: inherit;
+  opacity: 0;
+  /* Smooth 300ms ease transition */
+  transition: opacity 300ms ease, box-shadow 300ms ease;
+  pointer-events: none;
+  /* z-index: -1 within the isolated stacking context means
+     the overlay paints above the card's own background but
+     below ALL real content children */
+  z-index: -1;
+}
+
+.project-card:hover::before {
+  opacity: 1;
+}
+
+/* Optional: enhanced glow on the card border on hover */
+.project-card:hover {
+  border-color: rgba(59, 130, 246, 0.50) !important;
+  box-shadow:
+    0 20px 50px rgba(59, 130, 246, 0.20),
+    0 0 0 1px rgba(34, 211, 238, 0.15),
+    0 0 60px rgba(34, 211, 238, 0.08) !important;
+}
