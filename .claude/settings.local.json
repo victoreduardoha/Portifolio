@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -c '\"\"resend\"\"' package-lock.json)",
+      "Bash(grep -c '\"\"emailjs-com\"\"' package-lock.json)"
+    ]
+  }
+}
