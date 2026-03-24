@@ -17,7 +17,6 @@ export async function POST(req: Request) {
     const { error } = await resend.emails.send({
       from: "Portfolio <noreply@victoreduardo.site>",
       to: [process.env.CONTACT_TO_EMAIL || "victoreduardo.ml@icloud.com"],
-      reply_to: email,
       subject: `[Portfólio] ${subject}`,
       html: `
         <h2>Nova mensagem do portfólio</h2>
