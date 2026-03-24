@@ -36,10 +36,10 @@ const socialLinks = [
   {
     icon: Mail,
     label: "Email",
-    href: "mailto:victoreduardo.ml@icloud.com",
+    href: "mailto:contato@victoreduardo.site",
     target: "_self",
     color: "hover:text-cyan-400 hover:border-cyan-400/40",
-    desc: "victoreduardo.ml@icloud.com",
+    desc: "contato@victoreduardo.site",
   },
   {
     icon: MessageCircle,
