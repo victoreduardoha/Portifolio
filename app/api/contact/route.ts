@@ -3,6 +3,15 @@ import { NextResponse } from "next/server";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;");
+}
+
 export async function POST(req: Request) {
   try {
     const { name, email, subject, message } = await req.json();
@@ -17,21 +26,21 @@ export async function POST(req: Request) {
     const { error } = await resend.emails.send({
       from: "Portfolio <noreply@victoreduardo.site>",
       to: [process.env.CONTACT_TO_EMAIL || "contato@victoreduardo.site"],
-      subject: `[Portfólio] ${subject}`,
+      subject: `[Portfólio] ${escapeHtml(subject)}`,
       html: `
         <h2>Nova mensagem do portfólio</h2>
-        <p><strong>Nome:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Assunto:</strong> ${subject}</p>
+        <p><strong>Nome:</strong> ${escapeHtml(name)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+        <p><strong>Assunto:</strong> ${escapeHtml(subject)}</p>
         <p><strong>Mensagem:</strong></p>
-        <p>${String(message).replace(/\n/g, "<br/>")}</p>
+        <p>${escapeHtml(message).replace(/\n/g, "<br/>")}</p>
       `,
     });
 
     if (error) {
       console.error("Resend send error:", JSON.stringify(error));
       return NextResponse.json(
-        { error: "Erro ao enviar email.", detail: error },
+        { error: "Erro ao enviar email." },
         { status: 500 }
       );
     }

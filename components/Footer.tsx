@@ -26,9 +26,9 @@ export default function Footer() {
           {/* Social */}
           <div className="flex items-center gap-3">
             {[
-              { icon: Github, href: "https://github.com", label: "GitHub" },
-              { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-              { icon: Mail, href: "mailto:seu@email.com", label: "Email" },
+              { icon: Github, href: "https://github.com/victoreduardoha", label: "GitHub" },
+              { icon: Linkedin, href: "https://www.linkedin.com/in/victoreduardoml", label: "LinkedIn" },
+              { icon: Mail, href: "mailto:contato@victoreduardo.site", label: "Email" },
             ].map(({ icon: Icon, href, label }) => (
               <motion.a
                 key={label}
